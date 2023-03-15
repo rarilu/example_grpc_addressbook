@@ -69,6 +69,19 @@ class PythonClient(object):
         except grpc.RpcError as rpc_error:
             print('ERROR: code={}, description={}'.format(rpc_error.code(), rpc_error.details()))
 
+    def search_person(self):
+        """
+        Client function to call the rpc for searchPerson
+        """
+        email = input("Enter email: ")
+
+        try:
+            search_person_request = pb2.SearchPersonRequest(email=email)
+            person = self.stub.searchPerson(search_person_request)
+            print_person(person)
+        except grpc.RpcError as rpc_error:
+            print('ERROR: code={}, description{}'.format(rpc_error.code(), rpc_error.details()))
+
 
 def print_person(person):
     """
@@ -112,8 +125,7 @@ if __name__ == '__main__':
         elif choice == '2':
             client.add_person()
         elif choice == '3':
-            # TODO: implement searchPerson
-            print("searchPerson to be implemented")
+            client.search_person()
         elif choice == 'q':
             print("\nBye.")
         else:
